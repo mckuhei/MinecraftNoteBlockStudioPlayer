@@ -1,0 +1,4 @@
+name: NoteBlockStudioPlayer
+version: 1.0
+depend: [ProtocolLib]
+main: me.mckuhei.nbs.Main
