@@ -14,7 +14,7 @@ public class PlayerThread extends Thread {
 			for(;;) {
 				Thread.sleep(10);
 				synchronized(players) {
-					for(SongPlayer sp : players) {
+					for(SongPlayer sp : (ArrayList<SongPlayer>)players.clone()) {
 						sp.onTick();
 					}
 				}

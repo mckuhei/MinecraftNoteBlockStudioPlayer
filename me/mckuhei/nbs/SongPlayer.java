@@ -14,6 +14,7 @@ public class SongPlayer {
 		this.nbsFile=nbsIn;
 		this.startTime=System.currentTimeMillis();
 		timer=new Timer();
+		tick=0;
 	}
 	public void onTick() {
 		if(!(player.isOnline()&&timer.hasTimePassed((long) ((this.tick/nbsFile.header.tempo)*1000F)))) {
