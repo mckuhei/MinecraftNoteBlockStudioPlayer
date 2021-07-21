@@ -6,14 +6,12 @@ import org.bukkit.entity.Player;
 public class SongPlayer {
 	Player player;
 	NBS nbsFile;
-	long startTime;
 	int tick;
 	Timer timer;
 	int loopCount;
 	public SongPlayer(Player playerIn,NBS nbsIn) {
 		this.player=playerIn;
 		this.nbsFile=nbsIn;
-		this.startTime=System.currentTimeMillis();
 		timer=new Timer();
 		tick=0;
 	}

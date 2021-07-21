@@ -8,6 +8,7 @@ public class PlayerThread extends Thread {
 		super();
 		this.setName("PlayerThread");
 	}
+	@SuppressWarnings("unchecked")
 	public void run() {
 		try {
 			Main.plugin.getLogger().info(Main.plugin.config.getString("player_starting"));
