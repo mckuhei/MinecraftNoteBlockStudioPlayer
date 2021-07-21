@@ -10,7 +10,7 @@ public class PlayerThread extends Thread {
 	}
 	public void run() {
 		try {
-			Main.plugin.getLogger().info(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_starting"));
+			Main.plugin.getLogger().info(Main.plugin.config.getString("player_starting"));
 			for(;;) {
 				Thread.sleep(10);
 				synchronized(players) {
@@ -20,9 +20,9 @@ public class PlayerThread extends Thread {
 				}
 			}
 		} catch(InterruptedException e) {
-			Main.plugin.getLogger().info(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_quitting"));
+			Main.plugin.getLogger().info(Main.plugin.config.getString("player_quitting"));
 		} catch(Exception e) {
-			Main.plugin.getLogger().warning(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_quitting_by_exception"));
+			Main.plugin.getLogger().warning(Main.plugin.config.getString("player_quitting_by_exception"));
 			e.printStackTrace();
 		}
 	}
