@@ -7,8 +7,9 @@ public class SongPlayer {
 	Player player;
 	NBS nbsFile;
 	long startTime;
-	float tick;
+	int tick;
 	Timer timer;
+	int loopCount;
 	public SongPlayer(Player playerIn,NBS nbsIn) {
 		this.player=playerIn;
 		this.nbsFile=nbsIn;
@@ -28,7 +29,13 @@ public class SongPlayer {
 		}
 		this.tick++;
 		if(tick>nbsFile.header.songLength) {
-			Main.playerThread.stop(player.getName());
+			if(!nbsFile.header.loop||(nbsFile.header.maxLoopCount!=0&&loopCount==nbsFile.header.maxLoopCount)) {
+				Main.playerThread.stop(player.getName());
+			} else {
+				loopCount++;
+				tick=0;
+				timer.reset();
+			}
 		}
 	}
 }
