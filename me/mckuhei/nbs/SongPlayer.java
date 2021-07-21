@@ -27,7 +27,7 @@ public class SongPlayer {
 			}
 		}
 		this.tick++;
-		if(tick>=nbsFile.header.songLength) {
+		if(tick>nbsFile.header.songLength) {
 			Main.playerThread.stop(player.getName());
 		}
 	}
