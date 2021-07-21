@@ -81,9 +81,9 @@ public class Main extends JavaPlugin {
 				String filename="";
 				for(int i=1;i<args.length;i++) {
 					filename+=args[i];
-					if (i!=args.length-1) filename+=" ";
+					filename+=" ";
 				}
-				File file=new File("plugins/NoteBlockStudioPlayer/"+filename);
+				File file=new File("plugins/NoteBlockStudioPlayer/"+filename.trim());
 				if (!file.exists()) {
 					return false;
 				}
