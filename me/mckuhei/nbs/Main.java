@@ -22,16 +22,11 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		File folder=new File("plugins/NoteBlockStudioPlayer/");
 		if (!folder.exists()) {
-			try {
-				folder.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			folder.mkdir();
 		}
 		plugin=this;
 		pm=ProtocolLibrary.getProtocolManager();
-		if(pm.getMinecraftVersion().getMinor()<14) {
+		if(pm.getMinecraftVersion().getMinor()<=14) {
 			getServer().getConsoleSender().sendMessage("[NoteBlockStudioPlayer] §4错误:你至少需要1.14版本以上才能使用这个插件");
 			getServer().getPluginManager().disablePlugins();
 			return;

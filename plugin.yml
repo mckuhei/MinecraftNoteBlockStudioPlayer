@@ -2,3 +2,9 @@ name: NoteBlockStudioPlayer
 version: 1.0
 depend: [ProtocolLib]
 main: me.mckuhei.nbs.Main
+commands:
+   songplayer:
+      description: This is a demo command.
+      usage: /songplayer [command] [songname]
+      permission: null
+      permission-message: You don't have permission.
