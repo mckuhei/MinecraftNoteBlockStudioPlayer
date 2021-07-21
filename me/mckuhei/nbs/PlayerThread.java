@@ -10,7 +10,7 @@ public class PlayerThread extends Thread {
 	}
 	public void run() {
 		try {
-			Main.plugin.getLogger().info("播放线程已创建");
+			Main.plugin.getLogger().info(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_starting"));
 			for(;;) {
 				Thread.sleep(10);
 				synchronized(players) {
@@ -20,16 +20,16 @@ public class PlayerThread extends Thread {
 				}
 			}
 		} catch(InterruptedException e) {
-			Main.plugin.getLogger().info("播放线程已退出");
+			Main.plugin.getLogger().info(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_quitting"));
 		} catch(Exception e) {
-			Main.plugin.getLogger().warning("播放线程遇到错误，已退出");
+			Main.plugin.getLogger().warning(Main.plugin.pluginPrefix+Main.plugin.config.getString("player_quitting_by_exception"));
 			e.printStackTrace();
 		}
 	}
 	public void stop(String username) {
 		synchronized(players) {
 			for(int i=0;i<players.size();i++) if(players.get(i).player.getName().equals(username)) {
-				players.get(i).player.sendMessage("已停止");
+				players.get(i).player.sendMessage(Main.plugin.pluginPrefix+Main.plugin.config.getString("stopped"));
 				players.remove(i);
 			};
 		}

@@ -11,6 +11,7 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,18 +21,25 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
 public class Main extends JavaPlugin implements TabCompleter {
-	public static Plugin plugin;
+	public static Main plugin;
 	public static ProtocolManager pm;
 	public static PlayerThread playerThread;
+	public FileConfiguration config=getConfig();
+	public String pluginPrefix=config.getString("prefix");
 	public void onEnable() {
 		File folder=new File("plugins/NoteBlockStudioPlayer/");
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
+		if(pluginPrefix==null) {
+			this.saveDefaultConfig();
+			config=getConfig();
+			pluginPrefix=config.getString("prefix");
+		}
 		plugin=this;
 		pm=ProtocolLibrary.getProtocolManager();
 		if(pm.getMinecraftVersion().getMinor()<=14) {
-			getServer().getConsoleSender().sendMessage("[NoteBlockStudioPlayer] §4错误:你至少需要1.14版本以上才能使用这个插件");
+			getServer().getConsoleSender().sendMessage(pluginPrefix+config.getString("version_error"));
 			getServer().getPluginManager().disablePlugins();
 			return;
 		}
@@ -78,22 +86,22 @@ public class Main extends JavaPlugin implements TabCompleter {
 	private boolean checkSong(NBS nbs,CommandSender player) {
 		boolean flag=true;
 		if(nbs.header.tempo>100f) {
-			player.sendMessage(String.format("§4错误:tempo必须小于100,但是发现了%f", nbs.header.tempo));
+			player.sendMessage(String.format(pluginPrefix+config.getString("tempo_error"), nbs.header.tempo));
 			flag=false;
 		}
 		for(Note i:nbs.notes) {
 			if(i.key-33>24||i.key-33<0) {
-				player.sendMessage(String.format("§4错误:在%dtick的第%d层的音符无效", i.tick,i.layer));
+				player.sendMessage(String.format(pluginPrefix+config.getString("note_error"), i.tick,i.layer));
 				flag=false;
 			}
 			if(i.instrument>15) {
-				player.sendMessage(String.format("§4错误:在%dtick的第%d层发现无效乐器", i.tick,i.layer));
+				player.sendMessage(String.format(pluginPrefix+config.getString("instrument_error"), i.tick,i.layer));
 				flag=false;
 			}
-			if(i.layer>nbs.header.songLayers) {
+			/*if(i.layer>nbs.header.songLayers) {
 				player.sendMessage(String.format("§4错误:在%dtick的第%d层发现无效层", i.tick,i.layer));
 				flag=false;
-			}
+			}*/
 		}
 		
 		return flag;
@@ -107,7 +115,7 @@ public class Main extends JavaPlugin implements TabCompleter {
 			switch(args[0].toLowerCase()) {
 			case "play":
 				if(playerThread.isPlaying(sender.getName())) {
-					sender.sendMessage("已经播放了");
+					sender.sendMessage(pluginPrefix+config.getString("already_playing"));
 					return true;
 				}
 				if (args.length==1) {
@@ -121,6 +129,7 @@ public class Main extends JavaPlugin implements TabCompleter {
 				}
 				File file=new File("plugins/NoteBlockStudioPlayer/"+filename.trim());
 				if (!file.exists()||file.isDirectory()) {
+					sender.sendMessage(pluginPrefix+config.getString("file_not_found"));
 					return false;
 				}
 				MyInputStream stream;
