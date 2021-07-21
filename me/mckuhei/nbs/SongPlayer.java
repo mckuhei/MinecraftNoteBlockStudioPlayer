@@ -23,7 +23,7 @@ public class SongPlayer {
 		for(int i=0;i<nbsFile.notes.length&&nbsFile.notes[i].tick<=tick;i++) {
 			if(tick==nbsFile.notes[i].tick) {
 				Note note=nbsFile.notes[i];
-				player.playSound(player.getLocation(), Instrument.getDefaultInstrument(note.instrument), SoundCategory.RECORDS, note.velocity/100F, note.getPitch());
+				player.getWorld().playSound(player.getLocation(), Instrument.getDefaultInstrument(note.instrument), SoundCategory.RECORDS, note.velocity/100F, note.getPitch());
 			}
 		}
 		this.tick++;
