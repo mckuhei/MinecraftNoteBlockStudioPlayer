@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements TabCompleter {
 	public static Plugin plugin;
 	public static ProtocolManager pm;
 	public static PlayerThread playerThread;
@@ -33,6 +37,38 @@ public class Main extends JavaPlugin {
 		}
 		playerThread=new PlayerThread();
 		playerThread.start();
+	}
+	public void walk(File f,List list,String prefix) {
+		for(File file:f.listFiles()) {
+			if(file.isFile()) {
+				list.add(prefix+file.getName());
+			} else {
+				walk(file,list,prefix+file.getName()+"/");
+			}
+		}
+	}
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		if(command.getName().equalsIgnoreCase("songplayer")) {
+			if(args.length==0||args.length==1)
+				return Arrays.asList(new String[] {"play","stop"});
+			else if(args[0].equalsIgnoreCase("play")) {
+				String filename="";
+				for(int i=1;i<args.length;i++) {
+					filename+=args[i];
+					filename+=" ";
+				}
+				filename=filename.trim();
+				File file=new File("plugins/NoteBlockStudioPlayer/");
+				ArrayList<String> list=new ArrayList<String>();
+				walk(file, list, "");
+				ArrayList<String> list2=new ArrayList<String>();
+				for(String s:list) {
+					if(s.startsWith(filename)) list2.add(s);
+				}
+				return list2;
+			}
+		}
+		return new ArrayList(0);
 	}
 	public void onDisable() {
 		if(playerThread!=null&&playerThread.isAlive()) {
@@ -84,7 +120,7 @@ public class Main extends JavaPlugin {
 					filename+=" ";
 				}
 				File file=new File("plugins/NoteBlockStudioPlayer/"+filename.trim());
-				if (!file.exists()) {
+				if (!file.exists()||file.isDirectory()) {
 					return false;
 				}
 				MyInputStream stream;
