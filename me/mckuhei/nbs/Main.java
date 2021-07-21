@@ -65,13 +65,13 @@ public class Main extends JavaPlugin implements TabCompleter {
 					filename+=args[i];
 					filename+=" ";
 				}
-				filename=filename.trim();
+				filename=filename.trim().toLowerCase();
 				File file=new File("plugins/NoteBlockStudioPlayer/");
 				ArrayList<String> list=new ArrayList<String>();
 				walk(file, list, "");
 				ArrayList<String> list2=new ArrayList<String>();
 				for(String s:list) {
-					if(s.startsWith(filename)) list2.add(s);
+					if(s.toLowerCase().startsWith(filename)) list2.add(s);
 				}
 				return list2;
 			}
@@ -99,7 +99,7 @@ public class Main extends JavaPlugin implements TabCompleter {
 				flag=false;
 			}
 			/*if(i.layer>nbs.header.songLayers) {
-				player.sendMessage(String.format("¡ì4´íÎó:ÔÚ%dtickµÄµÚ%d²ã·¢ÏÖÎÞÐ§²ã", i.tick,i.layer));
+				player.sendMessage(String.format("ï¿½ï¿½4ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½%dtickï¿½Äµï¿½%dï¿½ã·¢ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½", i.tick,i.layer));
 				flag=false;
 			}*/
 		}
