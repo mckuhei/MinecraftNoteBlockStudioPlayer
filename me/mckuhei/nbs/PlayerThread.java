@@ -26,4 +26,18 @@ public class PlayerThread extends Thread {
 			e.printStackTrace();
 		}
 	}
+	public void stop(String username) {
+		synchronized(players) {
+			for(int i=0;i<players.size();i++) if(players.get(i).player.getName().equals(username)) {
+				players.get(i).player.sendMessage("ÒÑÍ£Ö¹");
+				players.remove(i);
+			};
+		}
+	}
+	public boolean isPlaying(String username) {
+		synchronized(players) {
+			for(int i=0;i<players.size();i++) if(players.get(i).player.getName().equals(username)) return true;
+		}
+		return false;
+	}
 }

@@ -39,7 +39,7 @@ public class Main extends JavaPlugin {
 			playerThread.interrupt();
 		}
 	}
-	private boolean checkSong(NBS nbs,Player player) {
+	private boolean checkSong(NBS nbs,CommandSender player) {
 		boolean flag=true;
 		if(nbs.header.tempo>100f) {
 			player.sendMessage(String.format("§4错误:tempo必须小于100,但是发现了%f", nbs.header.tempo));
@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
 				player.sendMessage(String.format("§4错误:在%dtick的第%d层发现无效乐器", i.tick,i.layer));
 				flag=false;
 			}
-			if(i.layer>=nbs.header.songLayers) {
+			if(i.layer>nbs.header.songLayers) {
 				player.sendMessage(String.format("§4错误:在%dtick的第%d层发现无效层", i.tick,i.layer));
 				flag=false;
 			}
@@ -70,6 +70,10 @@ public class Main extends JavaPlugin {
 			}
 			switch(args[0].toLowerCase()) {
 			case "play":
+				if(playerThread.isPlaying(sender.getName())) {
+					sender.sendMessage("已经播放了");
+					return true;
+				}
 				if (args.length==1) {
 					sender.sendMessage("/songplayer play <file>");
 					return false;
@@ -105,9 +109,13 @@ public class Main extends JavaPlugin {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				if(!checkSong(nbs, sender)) {
+					return true;
+				}
 				playerThread.players.add(new SongPlayer((Player)sender,nbs));
 				break;
 			case "stop":
+				playerThread.stop(sender.getName());
 				break;
 			}
 		}

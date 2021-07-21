@@ -5,6 +5,6 @@ main: me.mckuhei.nbs.Main
 commands:
    songplayer:
       description: This is a demo command.
-      usage: /songplayer [command] [songname]
+      usage: ''
       permission: null
       permission-message: You don't have permission.

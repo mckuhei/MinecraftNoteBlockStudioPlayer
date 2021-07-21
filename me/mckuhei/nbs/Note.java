@@ -25,8 +25,8 @@ public class Note {
 	public static Note[] from(MyInputStream in,int version) throws IOException {
 		ArrayList<Note> notes=new ArrayList<Note>();
 		Jumper i=new Jumper(in);
-		Jumper j=new Jumper(in);
 		while (i.next()) {
+			Jumper j=new Jumper(in);
 			while (j.next()) {
 				notes.add(new Note(i.value,j.value,(short)in.readUnsignedByte(),(short)in.readUnsignedByte(),(short)(version>=4 ? in.readUnsignedByte() : 100),(short)(version>=4 ? in.readUnsignedByte()-100 : 0),version>=4 ? in.readShort1() : 0));
 			}
