@@ -16,7 +16,7 @@ public class SongPlayer {
 		tick=0;
 	}
 	public void onTick() {
-		if(!(player.isOnline()&&timer.hasTimePassed((long) ((this.tick/nbsFile.header.tempo)*1000F)))) {
+		if(!timer.hasTimePassed((long) ((this.tick/nbsFile.header.tempo)*1000F))) {
 			return;
 		}
 		for(int i=0;i<nbsFile.notes.length&&nbsFile.notes[i].tick<=tick;i++) {
@@ -26,6 +26,9 @@ public class SongPlayer {
 			}
 		}
 		this.tick++;
+		if(!player.isOnline()) {
+			Main.playerThread.stop(player.getName());
+		}
 		if(tick>nbsFile.header.songLength) {
 			if(!nbsFile.header.loop||(nbsFile.header.maxLoopCount!=0&&loopCount==nbsFile.header.maxLoopCount)) {
 				Main.playerThread.stop(player.getName());

@@ -1,4 +1,5 @@
-﻿prefix: '[NoteBlockStudioPlayer] '
+﻿# 注：中文的语言文件在jar里的config_CN.yml
+prefix: '[NoteBlockStudioPlayer] '
 version_error: '§4ERROR:at least you need 1.14 or above to use this plugin.'
 tempo_error: '§4ERROR:tempo must lower than 100, but tempo is %f.'
 note_error: '§4ERROR:invaild note on %d tick, %d layer.'
