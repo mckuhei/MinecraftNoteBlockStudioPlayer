@@ -48,8 +48,10 @@ public class Header {
 		this.blocksAdded=in.readUnsignedInt();
 		this.blocksRemoved=in.readUnsignedInt();
 		this.songOrigin=in.readNBSString();
-		this.loop=in.readBoolean();
-		this.maxLoopCount=(short) in.readUnsignedByte();
-		this.loopStart=in.readUnsignedShort1();
+		if(this.version>=4) {
+			this.loop=in.readBoolean();
+			this.maxLoopCount=(short) in.readUnsignedByte();
+			this.loopStart=in.readUnsignedShort1();
+		}
 	}
 }

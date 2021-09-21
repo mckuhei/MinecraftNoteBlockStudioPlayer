@@ -1,6 +1,7 @@
 package me.mckuhei.nbs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NBS {
 	public Header header;
@@ -10,10 +11,16 @@ public class NBS {
 	public NBS(MyInputStream in) throws IOException {
 		this.header=new Header(in);
 		this.notes=Note.from(in, this.header.version);
-		this.layers=new Layer[this.header.songLayers];
+		ArrayList<Layer> layers = new ArrayList<>();
 		for (int i=0;i<this.header.songLayers;i++) {
-			this.layers[i]=new Layer(in.readNBSString(),this.header.version >= 4 ? in.readBoolean() : false,in.readUnsignedByte()/255,(short)(this.header.version >= 2 ? in.readUnsignedByte()-100 : 0));
+			layers.add(new Layer(in.readNBSString(),this.header.version >= 4 ? in.readBoolean() : false,in.readUnsignedByte()/100F,(short)(this.header.version >= 2 ? in.readUnsignedByte()-100 : 0)));
 		}
+		for(Note note:this.notes) {
+			if(note.layer>=layers.size()) {
+				layers.add(new Layer("", false, 1F, (short) 0));
+			}
+		}
+		this.layers = layers.toArray(new Layer[0]);
 		int instrumentCount=in.readUnsignedShort1();
 		this.instruments=new Instrument[instrumentCount];
 		for (int i=0;i<instrumentCount;i++) {
