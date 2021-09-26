@@ -95,10 +95,12 @@ public class Main extends JavaPlugin implements TabCompleter {
 			flag=false;
 		}
 		for(Note i:nbs.notes) {
-			if(i.key-33>24||i.key-33<0) {
+			int key = (int) Math.ceil(i.key+i.pitch/100F);
+			if(key-33>24||key-33<0) {
 				player.sendMessage(String.format(pluginPrefix+config.getString("note_error"), i.tick,i.layer));
 				flag=false;
 			}
+			// TODO: 自定义乐器
 			if(i.instrument>15) {
 				player.sendMessage(String.format(pluginPrefix+config.getString("instrument_error"), i.tick,i.layer));
 				flag=false;
